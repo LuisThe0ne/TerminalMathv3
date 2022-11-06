@@ -14,7 +14,7 @@ for(int i = 1; i <= playerCount; i++)
     Console.WriteLine($"Please enter Player {i - 1} Name:");
     string name = Console.ReadLine();
     Player player = new Player(){
-        Id = i - 1,
+        Id = i,
         Name = name,
         Score = 0
     };
