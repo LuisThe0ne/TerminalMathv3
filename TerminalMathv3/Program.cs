@@ -205,7 +205,7 @@ void PrettyScoreboard(string[] items, string title)
         string spaces = "";
         for (int i = 0; i < (maxLength - item.Length); i++)
         {
-            lines = lines + " ";
+            spaces = spaces + " ";
         }
         Console.WriteLine($"║{item}{spaces}║");
     }
