@@ -98,10 +98,13 @@ void ViewScoreboard()
 {
     players.Sort((x, y) => y.Score.CompareTo(x.Score));
     Console.WriteLine("The Game is over, Scoreboard:");
-    foreach (var player in players)
+    List<string> texts = new List<string>();
+    for(int i = 0; i < players.Count(); i++)
     {
-        Console.WriteLine($"Player {player.Id} ({player.Name}): {player.Score}");
+        string text = $"Player {players[i].Id} ({players[i].Name}): {players[i].Score})";
+        texts.Add(text);
     }
+    PrettyScoreboard(texts.ToArray(), "Scoreboard:");
 }
 
 int DropDownMenu(params string[] options)
@@ -168,6 +171,8 @@ int ConvertToIntSafe(string input)
 void PrettyScoreboard(string[] items, string title)
 {
     int maxLength = 0;
+    string lines = "";
+    string titleLines = "";
 
     foreach (string item in items)
     {
@@ -177,21 +182,33 @@ void PrettyScoreboard(string[] items, string title)
         }
     }
 
-
-    for (int i = 0; i < lines; i++)
+    if(title.Length > maxLength)
     {
-        lines_string = lines_string + "═";
+        maxLength = title.Length;
     }
 
-    int highScore = GetHighScore();
+    for (int i = 0; i < maxLength; i++)
+    {
+        lines = lines + "═";
+    }
 
-    Write_Color("╔" + lines_string + "╗", ConsoleColor.DarkCyan);
-    Console.SetCursorPosition(Console.WindowWidth - length, Console.WindowHeight - 4);
-    Write_Color($"║ Score: {score}     ║", ConsoleColor.DarkCyan);
-    Console.SetCursorPosition(Console.WindowWidth - length, Console.WindowHeight - 3);
-    Write_Color($"║ Highscore: {highScore} ║", ConsoleColor.DarkCyan);
-    Console.SetCursorPosition(Console.WindowWidth - length, Console.WindowHeight - 2);
-    Write_Color("╚" + lines_string + "╝", ConsoleColor.DarkCyan);
+    for (int i = 0; i < (maxLength - title.Length); i++)
+    {
+        titleLines = titleLines + " ";
+    }
+    Console.WriteLine($"╔{lines}╗");
+    Console.WriteLine($"║{title}{titleLines}║");
+    Console.WriteLine($"╠{lines}╣");
 
-    Console.SetCursorPosition(cursor_Left, cursor_Top);
+    foreach(string item in items)
+    {
+        string spaces = "";
+        for (int i = 0; i < (maxLength - item.Length); i++)
+        {
+            lines = lines + " ";
+        }
+        Console.WriteLine($"║{item}{spaces}║");
+    }
+
+    Console.WriteLine($"╚{lines}╝");
 }
